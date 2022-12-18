@@ -225,8 +225,8 @@ Resources:
               - s3:Get*
               - s3:List*
             Resource:
-              - arn:aws:s3:::udacity-devops-prj2-dunggla
-              - arn:aws:s3:::udacity-devops-prj2-dunggla/*
+              - arn:aws:s3:::my-215205966368
+              - arn:aws:s3:::my-215205966368/*
       Roles:
         - Ref: S3ReadOnlyRole
 
@@ -283,7 +283,7 @@ Resources:
           apt-get install apache2 -y
           systemctl start apache2.service
           cd /var/www/html
-          aws s3 cp s3://udacity-devops-prj2-dunggla/udacity.zip .
+          aws s3 cp s3://my-215205966368/udacity.zip .
           unzip -o udacity.zip
         ImageId: !Ref AMI
         IamInstanceProfile: !Ref ProfileWithRolesForOurApp
