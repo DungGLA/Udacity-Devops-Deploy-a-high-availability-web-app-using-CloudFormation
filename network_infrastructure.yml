@@ -36,10 +36,6 @@ Parameters:
     Type: String
     AllowedValues: [t2.medium, t3.medium]
 
-  AMI:
-    Description: AMI for base image
-    Type: AWS::EC2::Image::Id
-
 Resources:
   VPC:
     Type: AWS::EC2::VPC
@@ -277,6 +273,7 @@ Resources:
     Properties:
       UserData:
         Fn::Base64: !Sub |
+          #!/bin/bash
           apt-get update -y
           apt-get install unzip awscli -y
           apt-get install apache2 -y
@@ -284,15 +281,15 @@ Resources:
           cd /var/www/html
           aws s3 cp s3://my-215205966368/udacity.zip .
           unzip -o udacity.zip
-        ImageId: !Ref AMI
-        IamInstanceProfile: !Ref ProfileWithRolesForOurApp
-        SecurityGroups:
-          - Ref: WebServerSecGroup
-        InstanceType: !Ref InstanceType
-        BlockDeviceMappings:
-          - DeviceName: "/dev/sdk"
-            Ebs:
-              VolumeSize: "10"
+      ImageId: ami-03a45a5ac837f33b7
+      IamInstanceProfile: !Ref ProfileWithRolesForOurApp
+      SecurityGroups:
+        - Ref: WebServerSecGroup
+      InstanceType: !Ref InstanceType
+      BlockDeviceMappings:
+        - DeviceName: "/dev/sdk"
+          Ebs:
+            VolumeSize: "10"
 
   WebAppTargetGroup:
     Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -315,8 +312,8 @@ Resources:
         - !Ref PrivateSubnet2
       LaunchConfigurationName:
         Ref: WebAppLaunchConfig
-      MinSize: "4"
-      MaxSize: "6"
+      MinSize: "3"
+      MaxSize: "5"
       TargetGroupARNs:
         - Ref: WebAppTargetGroup
 
@@ -338,7 +335,7 @@ Resources:
             Ref: WebAppTargetGroup
       LoadBalancerArn:
         Ref: WebAppLB
-      Port: "80"
+      Port: 80
       Protocol: HTTP
 
   ALBListenerRule:

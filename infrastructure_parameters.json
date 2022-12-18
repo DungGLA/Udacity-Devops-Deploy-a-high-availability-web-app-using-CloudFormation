@@ -26,9 +26,5 @@
     {
         "ParameterKey": "InstanceType",
         "ParameterValue": "t2.medium"
-    },
-    {
-        "ParameterKey": "AMI",
-        "ParameterValue": "ami-00ddb0e5626798373"
     }
 ]
