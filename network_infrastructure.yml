@@ -45,7 +45,7 @@ Resources:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: !Ref VpcCIDR
-      EnableDnsHostNames: true
+      EnableDnsHostnames: "true"
       Tags:
         - Key: Name
           Value: !Ref EnvironmentName
@@ -63,7 +63,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref VPC
-      AvailableZone: !Select [0, !GetAZs ""]
+      AvailabilityZone: !Select [0, !GetAZs ""]
       CidrBlock: !Ref PublicSubnet1CIDR
       MapPublicIpOnLaunch: true
       Tags:
@@ -74,7 +74,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref VPC
-      AvailableZone: !Select [1, !GetAZs ""]
+      AvailabilityZone: !Select [1, !GetAZs ""]
       CidrBlock: !Ref PublicSubnet2CIDR
       MapPublicIpOnLaunch: true
       Tags:
@@ -85,7 +85,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref VPC
-      AvailableZone: !Select [0, !GetAZs ""]
+      AvailabilityZone: !Select [0, !GetAZs ""]
       CidrBlock: !Ref PrivateSubnet1CIDR
       MapPublicIpOnLaunch: false
       Tags:
@@ -96,7 +96,7 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref VPC
-      AvailableZone: !Select [1, !GetAZs ""]
+      AvailabilityZone: !Select [1, !GetAZs ""]
       CidrBlock: !Ref PrivateSubnet2CIDR
       MapPublicIpOnLaunch: false
       Tags:
@@ -200,7 +200,6 @@ Resources:
   S3ReadOnlyRole:
     Type: AWS::IAM::Role
     Properties:
-      RouteTableId: !Ref PrivateRouteTable2
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -209,7 +208,7 @@ Resources:
               Service:
                 - ec2.amazonaws.com
             Action:
-              - sts: AssumeRole
+              - sts:AssumeRole
       Path: "/"
       RoleName: !Sub ${EnvironmentName}-Role
 
